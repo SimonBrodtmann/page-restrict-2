@@ -2,7 +2,7 @@
 /*
 Plugin Name: Page Restrict 2
 Description: Restrict certain pages to logged in users
-Author: Simon Brodtmann, Matt Martz & Andy Stratton
+Author: Simon Brodtmann
 Text Domain: pagerestrict2
 Version: 1.0
 License: GPLv3
