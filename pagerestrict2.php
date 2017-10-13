@@ -47,8 +47,6 @@ function pr2_page_restrict ( $content ) {
 }
 
 
-error_log("log test");
-
 /**
  * Replace the default shortcode handlers.
  *
@@ -57,7 +55,6 @@ error_log("log test");
  */
 function pr2_replace_gallery_shortcode() {
     // overwrite the native shortcode handler
-	error_log("add shortcode");
     add_shortcode( 'gallery', 'pr2_gallery_shortcode' );
 }
 add_action( 'after_setup_theme', 'pr2_replace_gallery_shortcode' );
@@ -71,7 +68,6 @@ add_action( 'after_setup_theme', 'pr2_replace_gallery_shortcode' );
  * @return  string
  */
 function pr2_gallery_shortcode( $attr ) {
-	error_log("shortcode test");
     if (!is_user_logged_in() && isset($attr['ids'])) {
 		$ids = explode(",", $attr['ids']);
 		$idsFiltered = array();
