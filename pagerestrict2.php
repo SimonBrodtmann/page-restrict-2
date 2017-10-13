@@ -46,6 +46,51 @@ function pr2_page_restrict ( $content ) {
 	return $content;
 }
 
+
+error_log("log test");
+
+/**
+ * Replace the default shortcode handlers.
+ *
+ * @wp-hook after_setup_theme
+ * @return  void
+ */
+function pr2_replace_gallery_shortcode() {
+    // overwrite the native shortcode handler
+	error_log("add shortcode");
+    add_shortcode( 'gallery', 'pr2_gallery_shortcode' );
+}
+add_action( 'after_setup_theme', 'pr2_replace_gallery_shortcode' );
+
+
+/**
+ * Create a filtered gallery output.
+ *
+ * @wp-hook gallery
+ * @param   array $attr
+ * @return  string
+ */
+function pr2_gallery_shortcode( $attr ) {
+	error_log("shortcode test");
+    if (!is_user_logged_in() && isset($attr['ids'])) {
+		$ids = explode(",", $attr['ids']);
+		$idsFiltered = array();
+		for ($i = 0; $i < count($ids); $i++) {
+			$restricted = get_post_meta($ids[$i], 'pagerestrict2_restricted', true);
+			if (!$restricted) {
+				$idsFiltered[] = $ids[$i];
+			}
+		}
+		$attr['ids'] = implode(",", $idsFiltered);
+	}
+
+    // Let WordPress create the regular gallery …
+    $gallery = gallery_shortcode( $attr );
+
+    return $gallery;
+}
+
+
 // Add Filters
 add_filter ( 'the_content' , 'pr2_page_restrict' , 50 );
 add_filter ( 'the_excerpt' , 'pr2_page_restrict' , 50 );
