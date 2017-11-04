@@ -93,9 +93,9 @@ function test($post) {
  * Add meta box to create/edit page pages
  */
 function pr2_meta_box () {
-	add_meta_box ( 'pagerestrictionstatusdiv' , __('Restriction', 'pagerestrict2') , 'page_restriction_status_meta_box' , array('page', 'post', 'veranstaltung') , 'normal' , 'high' );
+	add_meta_box ( 'pagerestrictionstatusdiv' , __('Restriction', 'pagerestrict2') , 'page_restriction_status_meta_box' , array('page', 'post', 'veranstaltung') , 'normal' , 'default' );
 	if (post_type_supports(get_current_screen()->post_type, 'pagerestrict')) {
-		add_meta_box ( 'pagerestrictionstatusdiv' , __('Restriction', 'pagerestrict2') , 'page_restriction_status_meta_box' , get_current_screen() , 'normal' , 'high' );
+		add_meta_box ( 'pagerestrictionstatusdiv' , __('Restriction', 'pagerestrict2') , 'page_restriction_status_meta_box' , get_current_screen() , 'normal' , 'default' );
 	}
 }
 
