@@ -68,12 +68,6 @@ function pr2_admin_page () {
  */
 function page_restriction_status_meta_box ( $post ) {
 	$post_ID = $post->ID;
-	if ( $post->post_type == 'page' ) {
-		$the_IDs = pr2_get_opt ('pages');
-	}
-	else {
-		$the_IDs = pr2_get_opt ('posts');
-	}
 ?>
 	<p>
 		<label for="pr2_restriction" class="selectit">
@@ -82,11 +76,6 @@ function page_restriction_status_meta_box ( $post ) {
 		</label>
 	</p>
 <?php
-}
-
-function test($post) {
-	echo $post->post_type;
-	echo post_type_supports(get_current_screen()->post_type, 'pagerestrict');
 }
 
 /**
