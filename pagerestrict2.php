@@ -88,7 +88,19 @@ function pr2_gallery_shortcode( $attr ) {
 }
 
 
+/**
+ * Filter attachments
+ * @wp-hook gallery
+ **/
+function pr2_filter_attachment($image, $attachment_id, $size, $icon) {
+	if (pr2_is_post_restricted($attachment_id) && !is_user_logged_in())
+		return NULL;
+	return $image;
+}
+
+
 // Add Filters
 add_filter ( 'the_content' , 'pr2_page_restrict' , 50 );
 add_filter ( 'the_excerpt' , 'pr2_page_restrict' , 50 );
 add_filter ( 'comments_array' , 'pr2_page_restrict' , 50 );
+add_filter ( 'wp_get_attachment_image_src' , 'pr2_filter_attachment' , 50, 4 );
