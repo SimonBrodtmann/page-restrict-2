@@ -22,7 +22,7 @@ function pr2_get_opt ($option, $default = false) {
     return $default;
 }
 
-function pr2_is_post_restricted() {
+function pr2_is_post_restricted($id = NULL) {
 	switch (pr2_get_opt('method')) {
 		case 'none':
 			return false;
@@ -30,7 +30,8 @@ function pr2_is_post_restricted() {
 			return true;
 		case 'selected':
 			global $post;
-			return get_post_meta($post->ID, 'pagerestrict2_restricted', true) == true;
+			if (!$id) $id = $post->ID;
+			return get_metadata("post", $id, 'pagerestrict2_restricted', true) == true;
 	}
 	return false;
 }
