@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Page Restrict 2
+Plugin Name: AVL Page Restrict
 Description: Restrict certain pages to logged in users
 Author: Simon Brodtmann
 Text Domain: pagerestrict2
@@ -23,26 +23,14 @@ function pr2_get_opt ($option, $default = false) {
 }
 
 function pr2_is_post_restricted($id = NULL) {
-	switch (pr2_get_opt('method')) {
-		case 'none':
-			return false;
-		case 'all':
-			return true;
-		case 'selected':
-			global $post;
-			if (!$id) $id = $post->ID;
-			return get_metadata("post", $id, 'pagerestrict2_restricted', true) == true;
-	}
-	return false;
+	global $post;
+	if (!$id) $id = $post->ID;
+	return !get_metadata("post", $id, 'pagerestrict2_public', true) == true;
 }
 
 function pr2_page_restrict ( $content ) {
 	if (pr2_is_post_restricted() && !is_user_logged_in()) {
-		$content = '<p>';
-		$content .= __('This content can only be viewed by logged in users.', 'pagerestrict2');
-		$content .= '</p><a href="' . wp_login_url(get_permalink()) . '">';
-		$content .= __('Login.', 'pagerestrict2');
-		$content .= '</a>';
+		$content = '<p>Dieser Inhalt kann nur von eingelogten Mitgliedern eingesehen werden.</p>';
 	}
 	return $content;
 }
@@ -73,7 +61,7 @@ function pr2_gallery_shortcode( $attr ) {
 		$ids = explode(",", $attr['ids']);
 		$idsFiltered = array();
 		for ($i = 0; $i < count($ids); $i++) {
-			$restricted = get_post_meta($ids[$i], 'pagerestrict2_restricted', true);
+			$restricted = !get_post_meta($ids[$i], 'pagerestrict2_public', true);
 			if (!$restricted) {
 				$idsFiltered[] = $ids[$i];
 			}
