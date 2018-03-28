@@ -25,7 +25,7 @@ function pr2_get_opt ($option, $default = false) {
 function pr2_is_post_restricted($id = NULL) {
 	global $post;
 	if (!$id) $id = $post->ID;
-	return !get_metadata("post", $id, 'pagerestrict2_public', true) == true;
+	return get_metadata("post", $id, 'pagerestrict2_public', false) == false && !$post->post_name == "registrieren";
 }
 
 function pr2_page_restrict ( $content ) {
