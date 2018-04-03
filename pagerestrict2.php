@@ -24,7 +24,14 @@ function pr2_get_opt ($option, $default = false) {
 
 function pr2_is_post_restricted($id = NULL) {
 	global $post;
-	if ($post->post_name == "registrieren") return true;
+	if ($post->post_name == "registrieren") return false;
+	
+	if (get_post_type() == "veranstaltung") {
+		$begin = floor(strtotime(get_field('zeit')) / 86400);
+		$today = floor(time() / 86400);
+		if ($begin >= $today) return false;
+	}
+	
 	if (!$id) $id = $post->ID;
 	$public = get_metadata("post", $id, 'pagerestrict2_public', true);
 	if ($public === "") $public = false;
